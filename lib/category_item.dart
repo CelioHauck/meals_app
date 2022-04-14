@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/category_meals_screen.dart';
 
+import 'models/category.dart';
+
 class CategoryItem extends StatelessWidget {
   final int _id;
   final String _title;
@@ -14,14 +16,24 @@ class CategoryItem extends StatelessWidget {
         super(key: key);
 
   void _selectCategory(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return CategoryMealsScreen(
-            categoryId: _id,
-            categoryTitle: _title,
-          );
-        },
+    // TIP: Essa é uma forma de navegar sem ter o routes no main.dart
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (_) {
+    //       return CategoryMealsScreen(
+    //         categoryId: _id,
+    //         categoryTitle: _title,
+    //       );
+    //     },
+    //   ),
+    // );
+
+    Navigator.of(context).pushNamed<Category>(
+      '/category-meals',
+      arguments: Category(
+        id: _id.toString(),
+        title: _title,
+        color: _color,
       ),
     );
   }
