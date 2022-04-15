@@ -28,8 +28,8 @@ class CategoryItem extends StatelessWidget {
     //   ),
     // );
 
-    Navigator.of(context).pushNamed<Category>(
-      '/category-meals',
+    Navigator.of(context).pushNamed(
+      CategoryMealsScreen.routeName,
       arguments: Category(
         id: _id.toString(),
         title: _title,

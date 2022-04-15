@@ -79,7 +79,7 @@ flutter:
         - asset: assets/fonts/Raleway-Regular.ttf
         - asset: assets/fonts/Raleway-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Raleway-Balack.ttf
+        - asset: assets/fonts/Raleway-Black.ttf
           weight: 900
     - family: RobotoCondensed
       fonts:
