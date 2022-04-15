@@ -16,6 +16,7 @@ class Category {
         _title = title;
 
   String getTitle() => _title;
+  String getId() => _id;
   Color getColor() => _color;
 
   Category copyWith({

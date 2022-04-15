@@ -17,7 +17,7 @@ class CategoriesScreen extends StatelessWidget {
           ...dummyCategories
               .map(
                 (item) => CategoryItem(
-                  id: item.hashCode,
+                  id: item.getId(),
                   title: item.getTitle(),
                   color: item.getColor(),
                 ),

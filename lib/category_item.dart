@@ -4,12 +4,15 @@ import 'package:meals_app/category_meals_screen.dart';
 import 'models/category.dart';
 
 class CategoryItem extends StatelessWidget {
-  final int _id;
+  final String _id;
   final String _title;
   final Color _color;
 
   const CategoryItem(
-      {Key? key, required String title, required int id, required Color color})
+      {Key? key,
+      required String title,
+      required String id,
+      required Color color})
       : _title = title,
         _color = color,
         _id = id,
