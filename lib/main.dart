@@ -53,6 +53,26 @@ class MyApp extends StatelessWidget {
         CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
         MealDetailScreen.routeName: (context) => const MealDetailScreen(),
       },
+      //TIP: Uma forma de gerar rotas dinamicas
+      onGenerateRoute: (settings) {
+        print(settings.arguments);
+
+        // if(settings.name == '/preparacao'){
+        //   return ...;
+        // } else if(settings.name == '/dicas')
+        // return ...;
+
+        return MaterialPageRoute(
+          builder: (ctx) => const CategoriesScreen(),
+        );
+      },
+      //TIP: É executado quandpo nenhuma rota é encontra
+      // (tanto no routes quanto no onGenerateRoute)
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => const CategoriesScreen(),
+        );
+      },
     );
   }
 }
