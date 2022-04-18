@@ -3,8 +3,9 @@ import 'package:meals_app/dummy_data.dart';
 import 'package:meals_app/widgets/meal_item.dart';
 
 import '../models/category.dart';
+import '../models/meal.dart';
 
-class CategoryMealsScreen extends StatelessWidget {
+class CategoryMealsScreen extends StatefulWidget {
   static const routeName = '/category-meals';
   // final int _categoryId;
   // final String _categoryTitle;
@@ -22,33 +23,85 @@ class CategoryMealsScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CategoryMealsScreen> createState() => _CategoryMealsScreenState();
+}
+
+class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
+  late String _categoryTitle;
+  List<Meal> _mealsWithCategory = [];
+
+  //DUVIDA: PARECE QUE ISSO N É MAIS NECESSÁRIO.
+  var _isloadedInitDate = false;
+
+  //initState n funciona nesse caso pq n é possivel acessar o context no
+  // initState, pq o widget nesse ponto do codigo n é criado, o initState
+  // é executado primeiro.
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   setState(() {
+  //     final args = ModalRoute.of(context)!.settings.arguments as Category;
+  //     _categoryTitle = args.getTitle();
+  //     _mealsWithCategory = dummyMeals
+  //         .where(
+  //           (meal) => meal.categories.contains(
+  //             args.getId(),
+  //           ),
+  //         )
+  //         .toList();
+  //   });
+  // }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+    if (!_isloadedInitDate) {
+      setState(() {
+        final args = ModalRoute.of(context)!.settings.arguments as Category;
+        _categoryTitle = args.getTitle();
+        _mealsWithCategory = dummyMeals
+            .where(
+              (meal) => meal.categories.contains(
+                args.getId(),
+              ),
+            )
+            .toList();
+      });
+      _isloadedInitDate = true;
+    }
+  }
+
+  void _removeMeal(String mealId) {
+    setState(() {
+      _mealsWithCategory.removeWhere((element) => element.id == mealId);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Category;
-    final mealsWithCategory = dummyMeals
-        .where(
-          (meal) => meal.categories.contains(
-            args.getId(),
-          ),
-        )
-        .toList();
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            args.getTitle(),
+            _categoryTitle,
           ),
         ),
         body: ListView.builder(
           itemBuilder: (ctx, index) {
             return MealItem(
-              id: mealsWithCategory[index].id,
-              title: mealsWithCategory[index].title,
-              imageUrl: mealsWithCategory[index].imageUrl,
-              duration: mealsWithCategory[index].duration,
-              complexity: mealsWithCategory[index].complexity,
-              affordability: mealsWithCategory[index].affordability,
+              id: _mealsWithCategory[index].id,
+              title: _mealsWithCategory[index].title,
+              imageUrl: _mealsWithCategory[index].imageUrl,
+              duration: _mealsWithCategory[index].duration,
+              complexity: _mealsWithCategory[index].complexity,
+              affordability: _mealsWithCategory[index].affordability,
+              removeItem: _removeMeal,
             );
           },
-          itemCount: mealsWithCategory.length,
+          itemCount: _mealsWithCategory.length,
         ));
   }
 }
