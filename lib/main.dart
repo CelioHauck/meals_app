@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/screen/categories_screen.dart';
 import 'package:meals_app/screen/category_meals_screen.dart';
+import 'package:meals_app/screen/filters_screen.dart';
 import 'package:meals_app/screen/meal_detail_screen.dart';
+import 'package:meals_app/screen/tabs_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Meals App',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -49,9 +51,10 @@ class MyApp extends StatelessWidget {
       // home: const CategoriesScreen(),
       initialRoute: '/', // default is '/'
       routes: {
-        '/': (context) => const CategoriesScreen(),
+        '/': (context) => const TabsScreen(),
         CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
         MealDetailScreen.routeName: (context) => const MealDetailScreen(),
+        FiltersScreen.routeName: (context) => const FiltersScreen(),
       },
       //TIP: Uma forma de gerar rotas dinamicas
       onGenerateRoute: (settings) {

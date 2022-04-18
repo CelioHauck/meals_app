@@ -6,6 +6,9 @@ class MealDetailScreen extends StatelessWidget {
 
   const MealDetailScreen({Key? key}) : super(key: key);
 
+  //TIP: Se esse app fosse um app que mudasse de tema, uma melhoria de performance
+  //seria transformar esse build em um proprio widget para evitar que o metodo
+  //do build desse widget fosse trigado quando um tema fosse alterado.
   Widget buildSectionTitle(String title, BuildContext ctx) {
     return Container(
       margin: const EdgeInsets.symmetric(
