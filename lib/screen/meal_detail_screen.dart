@@ -4,7 +4,17 @@ import 'package:meals_app/dummy_data.dart';
 class MealDetailScreen extends StatelessWidget {
   static const String routeName = '/meal-detail';
 
-  const MealDetailScreen({Key? key}) : super(key: key);
+  final void Function(String id) _toogleFavorite;
+
+  final bool Function(String id) _isMealFavorite;
+
+  const MealDetailScreen({
+    Key? key,
+    required void Function(String id) toogleFavorite,
+    required bool Function(String id) isMealFavorite,
+  })  : _toogleFavorite = toogleFavorite,
+        _isMealFavorite = isMealFavorite,
+        super(key: key);
 
   //TIP: Se esse app fosse um app que mudasse de tema, uma melhoria de performance
   //seria transformar esse build em um proprio widget para evitar que o metodo
@@ -104,9 +114,14 @@ class MealDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.delete),
+        child: Icon(
+          _isMealFavorite(mealsId) ? Icons.star : Icons.star_border,
+        ),
         onPressed: () {
-          Navigator.of(context).pop(mealsId);
+          //TIP: ESSE É UM JEITO DE PASSAR DADOS PARA UMA SCREEN ANTERIOS
+          // Navigator.of(context).pop(mealsId);
+
+          _toogleFavorite(mealsId);
         },
       ),
     );

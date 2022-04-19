@@ -7,6 +7,8 @@ import 'package:meals_app/screen/filters_screen.dart';
 import 'package:meals_app/screen/meal_detail_screen.dart';
 import 'package:meals_app/screen/tabs_screen.dart';
 
+import 'models/meal.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -26,6 +28,8 @@ class _MyAppState extends State<MyApp> {
     vegetarian: false,
   );
 
+  final List<Meal> _favorite = [];
+
   var _availableMeals = dummyMeals;
 
   void _setFilters(MealFilters filters) {
@@ -38,6 +42,25 @@ class _MyAppState extends State<MyApp> {
             !(_filters.vegetarian && !element.isVegetarian);
       }).toList();
     });
+  }
+
+  void _toggleFavorite(String mealId) {
+    final existingIndex =
+        _favorite.indexWhere((element) => element.id == mealId);
+
+    if (existingIndex >= 0) {
+      setState(() {
+        _favorite.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favorite.add(dummyMeals.firstWhere((element) => element.id == mealId));
+      });
+    }
+  }
+
+  bool _isMealFavorite(String id) {
+    return _favorite.any((element) => element.id == id);
   }
 
   // This widget is the root of your application.
@@ -79,11 +102,16 @@ class _MyAppState extends State<MyApp> {
       // home: const CategoriesScreen(),
       initialRoute: '/', // default is '/'
       routes: {
-        '/': (context) => const TabsScreen(),
+        '/': (context) => TabsScreen(
+              favoriteMeals: _favorite,
+            ),
         CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(
               availableMeals: _availableMeals,
             ),
-        MealDetailScreen.routeName: (context) => const MealDetailScreen(),
+        MealDetailScreen.routeName: (context) => MealDetailScreen(
+              toogleFavorite: _toggleFavorite,
+              isMealFavorite: _isMealFavorite,
+            ),
         FiltersScreen.routeName: (context) => FiltersScreen(
               currentFilters: _filters,
               saveFilters: _setFilters,

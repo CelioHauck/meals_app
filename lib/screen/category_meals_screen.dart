@@ -79,33 +79,34 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
     }
   }
 
-  void _removeMeal(String mealId) {
-    setState(() {
-      _mealsWithCategory.removeWhere((element) => element.id == mealId);
-    });
-  }
+  // void _removeMeal(String mealId) {
+  //   setState(() {
+  //     _mealsWithCategory.removeWhere((element) => element.id == mealId);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            _categoryTitle,
-          ),
+      appBar: AppBar(
+        title: Text(
+          _categoryTitle,
         ),
-        body: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return MealItem(
-              id: _mealsWithCategory[index].id,
-              title: _mealsWithCategory[index].title,
-              imageUrl: _mealsWithCategory[index].imageUrl,
-              duration: _mealsWithCategory[index].duration,
-              complexity: _mealsWithCategory[index].complexity,
-              affordability: _mealsWithCategory[index].affordability,
-              removeItem: _removeMeal,
-            );
-          },
-          itemCount: _mealsWithCategory.length,
-        ));
+      ),
+      body: ListView.builder(
+        itemBuilder: (ctx, index) {
+          return MealItem(
+            id: _mealsWithCategory[index].id,
+            title: _mealsWithCategory[index].title,
+            imageUrl: _mealsWithCategory[index].imageUrl,
+            duration: _mealsWithCategory[index].duration,
+            complexity: _mealsWithCategory[index].complexity,
+            affordability: _mealsWithCategory[index].affordability,
+            // removeItem: _removeMeal,
+          );
+        },
+        itemCount: _mealsWithCategory.length,
+      ),
+    );
   }
 }

@@ -9,7 +9,7 @@ class MealItem extends StatelessWidget {
   final int _duration;
   final Complexity _complexity;
   final Affordability _affordability;
-  final Function(String idMeal) _removeItem;
+  // final Function(String idMeal) _removeItem;
 
   const MealItem({
     Key? key,
@@ -19,14 +19,14 @@ class MealItem extends StatelessWidget {
     required int duration,
     required Complexity complexity,
     required Affordability affordability,
-    required Function(String idMeal) removeItem,
+    // Function(String idMeal) removeItem,
   })  : _id = id,
         _title = title,
         _imageUrl = imageUrl,
         _duration = duration,
         _complexity = complexity,
         _affordability = affordability,
-        _removeItem = removeItem,
+        // _removeItem = removeItem,
         super(key: key);
 
   String get _complexityText {
@@ -63,7 +63,10 @@ class MealItem extends StatelessWidget {
     )
         .then(
       (value) {
-        if (value != null) _removeItem(value as String);
+        // if (value != null) _removeItem(value as String);
+        print(value);
+        //TIP: é assim que buscamos uma informacao que foi passada pela
+        //pop de uma screen
       },
     );
   }
