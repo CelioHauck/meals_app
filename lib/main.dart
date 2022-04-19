@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/dummy_data.dart';
+import 'package:meals_app/models/meal_filters.dart';
 import 'package:meals_app/screen/categories_screen.dart';
 import 'package:meals_app/screen/category_meals_screen.dart';
 import 'package:meals_app/screen/filters_screen.dart';
@@ -9,8 +11,34 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var _filters = MealFilters(
+    glutten: false,
+    lactose: false,
+    vegan: false,
+    vegetarian: false,
+  );
+
+  var _availableMeals = dummyMeals;
+
+  void _setFilters(MealFilters filters) {
+    setState(() {
+      _filters = filters;
+      _availableMeals = dummyMeals.where((element) {
+        return !(_filters.glutten && !element.isGlutenFree) &&
+            !(_filters.lactose && !element.isLactoseFree) &&
+            !(_filters.vegan && !element.isVegan) &&
+            !(_filters.vegetarian && !element.isVegetarian);
+      }).toList();
+    });
+  }
 
   // This widget is the root of your application.
   @override
@@ -52,9 +80,14 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // default is '/'
       routes: {
         '/': (context) => const TabsScreen(),
-        CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(
+              availableMeals: _availableMeals,
+            ),
         MealDetailScreen.routeName: (context) => const MealDetailScreen(),
-        FiltersScreen.routeName: (context) => const FiltersScreen(),
+        FiltersScreen.routeName: (context) => FiltersScreen(
+              currentFilters: _filters,
+              saveFilters: _setFilters,
+            ),
       },
       //TIP: Uma forma de gerar rotas dinamicas
       onGenerateRoute: (settings) {

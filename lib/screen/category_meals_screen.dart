@@ -18,9 +18,13 @@ class CategoryMealsScreen extends StatefulWidget {
   //       _categoryTitle = categoryTitle,
   //       super(key: key);
 
+  final List<Meal> _availableMeals;
+
   const CategoryMealsScreen({
     Key? key,
-  }) : super(key: key);
+    required List<Meal> availableMeals,
+  })  : _availableMeals = availableMeals,
+        super(key: key);
 
   @override
   State<CategoryMealsScreen> createState() => _CategoryMealsScreenState();
@@ -63,7 +67,7 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
       setState(() {
         final args = ModalRoute.of(context)!.settings.arguments as Category;
         _categoryTitle = args.getTitle();
-        _mealsWithCategory = dummyMeals
+        _mealsWithCategory = widget._availableMeals
             .where(
               (meal) => meal.categories.contains(
                 args.getId(),
